@@ -34,7 +34,7 @@ yueyue.name ="yueyue"
 yueyue.doHomework()
 print(yueyue.__dict__)
 
-
+sss
 
 
 
