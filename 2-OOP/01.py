@@ -34,7 +34,9 @@ yueyue.name ="yueyue"
 yueyue.doHomework()
 print(yueyue.__dict__)
 
-sss
-zzz
+class A():
+    name = "dana"
+    age = 18
+A.__dict__
 
 

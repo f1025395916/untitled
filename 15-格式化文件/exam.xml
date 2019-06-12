@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<School type="online" loc="beijing">
+    <Student gender="male">
+        <name>
+            xiaoshuai
+        </name>
+
+        <age>18</age>
+    </Student>
+     <Student>
+        <name>xiaozhang</name>
+        <age>19</age>
+    </Student>
+     <Student>
+        <name>xiaoyang</name>
+        <age>20</age>
+    </Student>
+
+</School>
