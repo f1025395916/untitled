@@ -672,6 +672,7 @@ class Assistant(object):
 
         try:
             resp = self.sess.post(url=url, data=data, headers=headers)
+            
             js = json.loads(resp.text)
 
             # 返回信息示例：
