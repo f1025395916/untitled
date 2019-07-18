@@ -1,0 +1,66 @@
+爬取网页HTML代码：
+import requests
+from lxml import etree
+
+req = request.get(url,headers=headers)
+html = etree.HTML(rep.content)
+
+然后可以用Xpath获取某个标签
+eg:elf.page_url_o = page_html.xpath('//div[@class="tagsPage"]/form/a[text()="下一页"]/@href')
+
+
+
+
+通过网站API接口获取json:
+import urllib.request
+import json
+import jsonpath
+
+url = "接口地址";
+# 获得一个请求实体包
+req = urllib.request.request(url)
+req.add_header()
+# 请求接口，获取数据
+data = urllib.request.urlopen(req).read().decode('utf-8')
+data = json.loads(data)
+# 可以用jsonpath获取想要的数据
+jobName = jsonpath.jsonpath(data,'$..jobName')
+
+
+通过zip链接下载zip包：
+
+
+python 链接mysql:
+
+import pymysql
+db = pymysql.connect(host='localhost',user='root',password='123456',port=3306,db='cssmoban')
+
+cursor =db.cursor()
+查询：
+sql = 'select * from tags'
+cursor.execute(sql)
+#   fetchone:获取第一条记录   fetchall:获取所有数据，当执行了第一个，游标就到了第二条了
+print(cursor.fetchall())
+cursor.close()
+db.close()
+
+插入数据：
+insert_sql = 'insert into tags(tagName) values ("汽车")'
+result  = cursor.execute(insert_sql)
+db.commit()
+print(result)
+
+插入多条：
+insert_sql = 'insert into tags(tagName) values (%s)'
+result  = cursor.executemany(insert_sql,htmldata)
+db.commit()
+print(result)
+cursor.close()
+db.close()
+
+
+
+
+
+
+
