@@ -6,4 +6,3 @@ print(r.elapsed.microseconds)
 
 print(r.elapsed.total_seconds())
 
-print(ssss)
