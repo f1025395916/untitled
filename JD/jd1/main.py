@@ -5,6 +5,7 @@ import urllib
 import json
 import jsonpath
 from jd_assistant import Assistant
+import  time
 
 
 
@@ -17,8 +18,10 @@ def submission_timing():
     startTime =input("请输入开始时间: ")
     asst.add_item_to_cart(sku_ids=sku_id)  # 根据商品id添加购物车（可选）
     # ID：100001324422    4682026
-    # startTime:2019-07-18 18:54:59.600
+    # startTime:2019-07-22 12:00:59.609
     asst.submit_order_by_time(buy_time=startTime, retry=1, interval=5)
+
+    time.sleep(1000)
     # 5个参数
     # sku_ids: 商品id，多个商品id用逗号进行分割，如"123,456,789"
     # buy_time: 下单时间，例如：'2019-02-19 09:59:59.700'
@@ -30,10 +33,14 @@ def submission_timing():
 
 # 定时秒杀(抢购商品)
 def secondkill_timing():
-    asst.exec_seckill_by_time(sku_ids='100002852990', buy_time='2019-02-19 09:59:59.500', retry=10, interval=4)
+    asst.clear_cart()  # 清空购物车（可选）
+    sku_id = input("请输入商品ID：")
+    startTime = input("请输入开始时间: ")
+    asst.add_item_to_cart(sku_ids=sku_id)  # 根据商品id添加购物车（可选）
+    asst.exec_seckill_by_time(sku_ids=sku_id, buy_time=startTime, retry=10, interval=4)
     # 5个参数：
     # sku_ids: 商品id，多个商品id用逗号进行分割，如 "123,456,789"
-    # buy_time: 下单时间，例如：'2019-02-19 09:59:59.500'
+    # buy_time: 下单时间，例如：'2019-02-19 09:59:59.700'
     # retry: 抢购重复执行次数，可选参数，默认4次
     # interval: 抢购执行间隔，可选参数，默认4秒
     # num: 购买数量，可选参数，默认1个
