@@ -18,6 +18,11 @@ print(r.elapsed.microseconds)
 print("请求延迟毫秒数：{}".format(r.elapsed))
 
 print(r.json())
+
+
+
+
+
 res = jsonpath.jsonpath(r.json(),'$..serverTime')
 print(str(res))
 

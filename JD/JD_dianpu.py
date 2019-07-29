@@ -3,6 +3,7 @@ import requests
 import re
 import random
 import time
+import jsonpath
 import openpyxl
 import json
 
@@ -12,6 +13,10 @@ from requests.packages.urllib3.exceptions import InsecureRequestWarning
 
 
 requests.packages.urllib3.disable_warnings(InsecureRequestWarning)  ###禁止提醒SSL警告'''
+
+
+# 五折信息的页面  以v2?开头
+# 精简请求https://cd.jd.com/promotion/v2?callback=jQuery7173151&skuId=100000540912&area=13_1000_40489_40616&shopId=1000001402&cat=737%2C13297%2C13882
 
 
 class jd(object):
@@ -38,15 +43,27 @@ class jd(object):
             time.sleep(random.random())  ##随机延时0-1秒
             t = int(time.time() * 1000)
             ##           https://wqsou.jd.com/search/searchjson?datatype=1&page=2&pagesize=40&merge_sku=yes&qp_disable=yes&key=ids%2C%2C121614&_=1537524375713&sceneval=2&g_login_type=1&callback=jsonpCBKQ&g_ty=ls
-            searchurl = 'https://wqsou.jd.com/search/searchjson?datatype=1&page={}&pagesize=40&merge_sku=yes&qp_disable=yes&key=ids%2C%2C{}&_={}&sceneval=2&g_login_type=1&callback=jsonpCBKA&g_ty=ls'.format(
-                i, self.shopid, t)  ##请求数据网址
+            searchurl = 'https://wqsou.jd.com/search/searchjson?datatype=1&page={}&pagesize=40&merge_sku=yes&qp_disable=yes&key=ids%2C%2C{}&_={}&sceneval=2&g_login_type=1&callback=jsonpCBKA&g_ty=ls'.format(i, self.shopid, t)  ##请求数据网址
             print(searchurl)
 
-            req = self.s.get(url=searchurl, verify=False).text  ###获取数据
-            print(req)
-            strResult =print(name, i)
+            req = self.s.get(url=searchurl, verify=False) ###获取数据
 
-            reg = re.compile("(\w+)=:(\w+)")
+
+
+            res = jsonpath.jsonpath(req, '$..jsonpCBKA')
+            print(type(res))
+            print(res)
+
+
+
+
+
+            #data = json.loads(req)
+            #print(data)
+            #wareid = jsonpath.jsonpath(e,'$..Content')
+            #print(wareid)
+
+
 
 
 
@@ -58,3 +75,4 @@ if __name__ == '__main__':
     url = 'https://mall.jd.com/index-1000001402.html'
     nm = 'intel'
     data = j.getdata(url, nm)
+
