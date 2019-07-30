@@ -3,7 +3,9 @@ import jsonpath
 from urllib import request
 import string
 
-
+'''
+    获取店铺的所有商品链接，根据商品链接获取每个商品的小标题
+'''
 data= {
     "retcode":"0",
     "errmsg":"",
@@ -1416,9 +1418,11 @@ data = json.dumps(data)
 
 data = json.loads(data)
 
-print(type(data))
+
 wareid = jsonpath.jsonpath(data,"$..wareid")
 wareidList.append(wareid)
+print(wareidList)
+print(len(wareidList[0]))
 
 
 for temp  in wareidList[0]:
@@ -1431,17 +1435,17 @@ for temp  in wareidList[0]:
     charIndex = dpData.index(char_i)
 
     dpData = dpData[charIndex+1:-1]
-
+    print(dpData)
     dpData = str(dpData)
 
 
 
     dpData = json.loads(dpData)
-    print(type(dpData))
 
 
-    ads = jsonpath.jsonpath(dpData,"$..adsStatus")
-    print(ads)
+
+    ad = jsonpath.jsonpath(dpData,"$..ad")
+    print(ad)
 
 
 

@@ -6,6 +6,7 @@ import time
 import jsonpath
 import openpyxl
 import json
+from urllib import request
 
 '''import pymysql
 from sqlalchemy import create_engine
@@ -35,7 +36,8 @@ class jd(object):
         getdate = time.strftime("%Y-%m-%d", time.localtime())
         self.shopid = re.search('index-(.*?).html', url).group(1)  ###获取店铺ID号
         self.s.get('https://shop.m.jd.com/search/search?shopId=' + str(self.shopid))
-
+        wareidList = []
+        dictUrl ={}
         for i in range(1, 2):  ###爬取页数范围   没有找到商品后会自动退出循环
             wareId_list = []
             wname_list = []
@@ -47,27 +49,42 @@ class jd(object):
             print(searchurl)
 
             req = self.s.get(url=searchurl, verify=False) ###获取数据
-
-
-
-            res = jsonpath.jsonpath(req, '$..jsonpCBKA')
-            print(type(res))
-            print(res)
+            urlData = req.text
 
 
 
 
+            char_a = "("
+            charIndexA = urlData.index(char_a)
+            urlData = urlData[charIndexA+1:-2]
 
-            #data = json.loads(req)
-            #print(data)
-            #wareid = jsonpath.jsonpath(e,'$..Content')
-            #print(wareid)
-
-
-
+            # 转换成dict
+            urlData= eval(urlData)
 
 
+            wareid = jsonpath.jsonpath(urlData, "$..wareid")
+            wareidList.append(wareid)
 
+            for temp in wareidList[0]:
+                dpUrl = "https://cd.jd.com/promotion/v2?callback=jQuery7173151&skuId={}&area=13_1000_40489_40616&shopId=1000001402&cat=737%2C13297%2C13882".format(
+                str(temp))
+
+                dpData = request.urlopen(dpUrl).read().decode("gbk")
+
+                char_i = "("
+                charIndex = dpData.index(char_i)
+
+                dpData = dpData[charIndex + 1:-1]
+
+                dpData = str(dpData)
+
+                dpData = json.loads(dpData)
+
+                productId = jsonpath.jsonpath(dpData,"$..sku")
+                ad = jsonpath.jsonpath(dpData, "$..ad")
+                print(productId)
+                print(ad)
+        print(len(wareidList[0]))
 
 
 if __name__ == '__main__':
