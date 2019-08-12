@@ -35,24 +35,24 @@ class jd(object):
 
         getdate = time.strftime("%Y-%m-%d", time.localtime())
         self.shopid = re.search('index-(.*?).html', url).group(1)  ###获取店铺ID号
+
+        # 手机网页段地址
         self.s.get('https://shop.m.jd.com/search/search?shopId=' + str(self.shopid))
         wareidList = []
         dictUrl ={}
-        for i in range(1, 2):  ###爬取页数范围   没有找到商品后会自动退出循环
+        for i in range(1, 10):  ###爬取页数范围   没有找到商品后会自动退出循环
             wareId_list = []
             wname_list = []
             jdPrice_list = []
             time.sleep(random.random())  ##随机延时0-1秒
             t = int(time.time() * 1000)
-            ##           https://wqsou.jd.com/search/searchjson?datatype=1&page=2&pagesize=40&merge_sku=yes&qp_disable=yes&key=ids%2C%2C121614&_=1537524375713&sceneval=2&g_login_type=1&callback=jsonpCBKQ&g_ty=ls
-            searchurl = 'https://wqsou.jd.com/search/searchjson?datatype=1&page={}&pagesize=40&merge_sku=yes&qp_disable=yes&key=ids%2C%2C{}&_={}&sceneval=2&g_login_type=1&callback=jsonpCBKA&g_ty=ls'.format(i, self.shopid, t)  ##请求数据网址
+            #            https://wqsou.jd.com/search/searchjson?datatype=1&page=1&pagesize=30&merge_sku=yes&qp_disable=yes&key=ids%2C%2C1000001402&source=omz&_=1565585938125&sceneval=2&g_login_type=1&callback=jsonpCBKSS&g_ty=ls
+            ##           https://wqsou.jd.com/search/searchjson?datatype=1&page=2&pagesize=100&merge_sku=yes&qp_disable=yes&key=ids%2C%2C121614&_=1537524375713&sceneval=2&g_login_type=1&callback=jsonpCBKQ&g_ty=ls
+            searchurl = 'https://wqsou.jd.com/search/searchjson?datatype=1&page={}&pagesize=30&merge_sku=yes&qp_disable=yes&key=ids%2C%2C{}&_={}&sceneval=2&g_login_type=1&callback=jsonpCBKA&g_ty=ls'.format(i, self.shopid, t)  ##请求数据网址
             print(searchurl)
 
             req = self.s.get(url=searchurl, verify=False) ###获取数据
             urlData = req.text
-
-
-
 
             char_a = "("
             charIndexA = urlData.index(char_a)
@@ -63,11 +63,19 @@ class jd(object):
 
 
             wareid = jsonpath.jsonpath(urlData, "$..wareid")
-            wareidList.append(wareid)
+            Paragraph = jsonpath.jsonpath(urlData,"$..Paragraph")
 
-            for temp in wareidList[0]:
-                dpUrl = "https://cd.jd.com/promotion/v2?callback=jQuery7173151&skuId={}&area=13_1000_40489_40616&shopId=1000001402&cat=737%2C13297%2C13882".format(
-                str(temp))
+            # 判断是否还有数据
+            if(Paragraph==[]):
+                break
+            else:
+                wareidList.append(wareid)
+
+
+
+            for temp in wareidList[i-1]:
+
+                dpUrl = "https://cd.jd.com/promotion/v2?callback=jQuery7173151&skuId={}&area=13_1000_40489_40616&shopId=1000001402&cat=737%2C13297%2C13882".format(str(temp))
 
                 dpData = request.urlopen(dpUrl).read().decode("gbk")
 
@@ -82,9 +90,11 @@ class jd(object):
 
                 productId = jsonpath.jsonpath(dpData,"$..sku")
                 ad = jsonpath.jsonpath(dpData, "$..ad")
+                # 输出商品的ID
                 print(productId)
+                # 输出商品的副标题信息
                 print(ad)
-        print(len(wareidList[0]))
+
 
 
 if __name__ == '__main__':

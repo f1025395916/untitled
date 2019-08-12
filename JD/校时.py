@@ -32,6 +32,8 @@ print(str(res))
 
 
 
+
+
 timeTemp = str(res[0])
 # 最后三位的毫秒数    288
 lMillisecond = str(timeTemp)[10:16]
