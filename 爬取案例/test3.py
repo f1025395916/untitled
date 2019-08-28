@@ -1,26 +1,17 @@
-# -*- coding: utf-8 -*-
+import urllib.request
+import json
+import jsonpath
+import  requests
 
+url = "http://zhujia.zhuwang.cc/index/api/chartData?areaId=110000&aa=1565837187844"
+headers = {
 
+    "cookie":"Hm_lvt_ecf9f117616fbbedc6c0b6847d198f3d=1564017331,1565834356; historyAreaInfo=110000%3B-1; Hm_lpvt_ecf9f117616fbbedc6c0b6847d198f3d=1565837172",
+    "Referer":"http://zhujia.zhuwang.cc/areapriceinfo-110000.shtml",
+    "User-Agent":"Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.100 Safari/537.36"
 
-
-dic_test = {'name':'小帅','age':18}
-
-print(dic_test["name"])
-for k,v in dic_test.items():
-
-    print(k+":"+str(v))
-for k in dic_test.keys():
-    print(k)
-
-
-dic_txl = {"zhangsan":"13806659465","xiaoshuai":"18660653953","xiaoming":"13306464505"}
-
-while(True):
-    str_name = input("输入要查找人姓名(可模糊查询)：")
-    for k,v in dic_txl.items():
-        if k.startswith(str_name):
-            print(k+':'+v)
-    i = input("是否继续查找(y/n?):")
-    if i =='n':
-        break
+}
+req = requests.get(url,headers=headers)
+data = req.json()
+print(data)
 

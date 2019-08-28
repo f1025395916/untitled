@@ -8,7 +8,8 @@
       <excludeFolder url="file://$MODULE_DIR$/pac" />
       <excludeFolder url="file://$MODULE_DIR$/venv" />
     </content>
-    <orderEntry type="jdk" jdkName="Python 3.5 (untitled)" jdkType="Python SDK" />
+    <content url="file://F:/PyConding" />
+    <orderEntry type="jdk" jdkName="Python 3.5 (Data_anlaysis)" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
   </component>
   <component name="TemplatesService">
